@@ -144,7 +144,6 @@ This project emphasizes:
 * Robust ensemble behavior
 * Interpretability through causal analysis
 
-It is designed to be **deployable, scalable, and cost-effective**.
 ---
 
 ## Project Structure
