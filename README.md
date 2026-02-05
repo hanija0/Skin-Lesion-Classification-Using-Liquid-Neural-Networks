@@ -105,7 +105,7 @@ To ensure reliability:
 
 ## Dataset
 
-* **Custom Dataset**: 17 skin lesion classes (balanced distribution). Available at: 
+* **Custom Dataset**: 17 skin lesion classes (balanced distribution). Available at: https://drive.google.com/file/d/1cXrsjCl5cI8W92VJIeaJt8_gPIPHnraI/view?usp=sharing
 * **Benchmark Dataset**: HAM10000
 * Split ratio: **70% Train / 15% Validation / 15% Test**
 * No hair or noise removal to preserve real-world characteristics
