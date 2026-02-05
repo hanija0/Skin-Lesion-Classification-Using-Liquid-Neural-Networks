@@ -105,7 +105,7 @@ To ensure reliability:
 
 ## Dataset
 
-* **Custom Dataset**: 17 skin lesion classes (balanced distribution)
+* **Custom Dataset**: 17 skin lesion classes (balanced distribution). Available at: 
 * **Benchmark Dataset**: HAM10000
 * Split ratio: **70% Train / 15% Validation / 15% Test**
 * No hair or noise removal to preserve real-world characteristics
@@ -153,7 +153,6 @@ It is designed to be **deployable, scalable, and cost-effective**.
 skin-lesion-classification/
 ├── custom.ipynb
 ├── ham10000.ipynb
-├── data.zip
 └── README.md
 ```
 
