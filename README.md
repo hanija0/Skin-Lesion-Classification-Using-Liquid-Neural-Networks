@@ -327,10 +327,7 @@ Please open an **issue or pull request** for discussion.
 
 # Authors
 
-Hanija Edupuganti
-Dr. Surender Reddy Vinta
-Lahari Vege
-Dinesh Kumar Ponnada
+Hanija Edupuganti, Dr. Surender Reddy Vinta, Lahari Vege, Dinesh Kumar Ponnada
 
 School of Computer Science and Engineering
 VIT-AP University
