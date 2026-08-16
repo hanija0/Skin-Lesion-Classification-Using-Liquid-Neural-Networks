@@ -1,24 +1,23 @@
 
-
 # Skin Lesion Classification Using Liquid Neural Networks
 
 ## Title
 
-**Skin Lesion Classification Using Liquid Neural Networks with Quantum-Regularized YOLOv11x and MobileNetV3**
+**Liquid Neural Network-Based Stacking for Skin Lesion Classification**
 
 ---
 
 # Overview
 
-This repository implements a **robust and scalable skin lesion classification framework** designed to address key challenges in medical AI deployment, including:
+This repository implements a **robust, low-latency, and scalable skin lesion classification framework** designed to address critical challenges in automated dermatological AI deployment, including:
 
-* Generalization across datasets
-* Class imbalance
-* Overfitting in deep models
-* Inference efficiency
-* Model interpretability
+* Generalization across heterogeneous clinical datasets
+* Class imbalance and broad diagnostic spectrums
+* Overfitting in high-dimensional feature spaces
+* Inference efficiency for real-time edge processing
+* Model interpretability and causal stability
 
-The system integrates multiple models through **adaptive stacking using Liquid Neural Networks (LNNs)** to produce a stable and generalizable classification pipeline.
+The system integrates complementary deep feature extractors through **adaptive continuous-time stacking via Liquid Neural Networks (LNNs)** to deliver stable and highly accurate diagnostic predictions without relying on explicit image segmentation.
 
 The implementation corresponds to the research work:
 
@@ -27,106 +26,71 @@ The implementation corresponds to the research work:
 ---
 
 # High-Level Architecture
+
 <img width="610" height="210" alt="image" src="https://github.com/user-attachments/assets/daf9d049-799c-4b52-b3b9-0cabe66da638" />
 
+The framework consists of three primary components:
 
-The framework consists of three main components:
-
-1. **YOLOv11x Feature Extractor**
-2. **MobileNetV3-Large Lightweight Classifier**
-3. **Liquid Neural Network Meta-Classifier**
-
-The predictions from base models are stacked and processed by the **LNN meta-classifier**, which dynamically adapts its internal state to improve classification robustness.
+1. **Quantum-Regularized YOLOv11x Backbone:** Captures rich global spatial context and features via Hilbert-space quantum-inspired variational regularization.
+2. **MobileNetV3-Large Backbone:** Serves as a lightweight, highly efficient feature extractor for localized feature representations.
+3. **Continuous-Time Liquid Neural Network (LNN) Meta-Classifier:** Dynamically processes concatenated out-of-fold (OOF) latent activations using ordinary differential equations (ODEs) to adjust integration weights based on feature complexity.
 
 ---
 
 # Description
 
-Skin lesion classification systems often struggle with:
+Existing deep learning systems for skin lesion classification suffer from significant clinical limitations:
 
-* Dataset bias
-* Overfitting
-* Computational inefficiency
-* Dependence on segmentation pipelines
+* **Explicit Segmentation Failure:** Traditional pipelines require manual or standalone segmentation steps that remove surrounding healthy tissue context and propagate boundary errors.
+* **Static Feature Aggregation:** Standard voting schemes, weighted averages, or static meta-learners (e.g., Logistic Regression) fail to capture non-linear logit interactions.
+* **High Diagnostic Costs:** Early-stage detection (e.g., Stage I melanoma) significantly improves survival rates (nearly 94%), but diagnostic costs (~$150/visit) limit broad access.
 
-This project addresses these issues by:
-
-* Eliminating explicit segmentation
-* Using complementary backbone architectures
-* Introducing quantum-inspired regularization
-* Applying adaptive stacking via Liquid Neural Networks
-
-The goal is to build a **robust inference pipeline rather than focusing solely on single-model accuracy**.
+This project resolves these challenges by using **implicit segmentation via object-detection backbones**, **quantum-inspired variational regularization**, **3-fold out-of-fold feature generation**, and **adaptive LNN meta-stacking** to ensure robust diagnostic performance across wide clinical lesion spectrums.
 
 ---
 
 # Dataset Information
 
-This project uses two datasets.
+The framework is evaluated across two distinct clinical benchmarks:
 
-### 1. Custom Skin Lesion Dataset
+| Dataset | Classes | Total Images | Train / Val / Test Split | Cross-Validation Scheme | Key Characteristics |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Custom Dataset** | 17 Classes | 3,036 | 2,121 / 455 / 460 (70:15:15) | **3-Fold Stratified CV** | Merged Derm12345 & Kaggle archives; Imbalance Ratio = 1.55; Normalized Entropy = 0.99. |
+| **HAM10000** | 7 Classes | 10,015 | 7,007 / 1,502 / 1,506 (70:15:15) | **3-Fold Stratified CV** | Standard dermatoscopic benchmark; includes uncleaned raw clinical noise. |
 
-* **Classes:** 17 skin lesion categories
-* **Distribution:** Balanced
-* **Source:**
-
-[https://drive.google.com/file/d/1cXrsjCl5cI8W92VJIeaJt8_gPIPHnraI/view?usp=sharing](https://drive.google.com/file/d/1cXrsjCl5cI8W92VJIeaJt8_gPIPHnraI/view?usp=sharing)
-
-### 2. HAM10000 Dataset
-
-A widely used dermatology benchmark dataset.
-
-Dataset paper:
-
-Tschandl P, Rosendahl C, Kittler H (2018).
-The HAM10000 dataset: A large collection of multi-source dermatoscopic images of common pigmented skin lesions.
-Scientific Data 5:180161.
-
-### Data Split
-
-Train : 70%
-Validation : 15%
-Test : 15%
-
-No hair removal or artifact cleaning was performed to preserve **real-world imaging conditions**.
+* **Custom Dataset Link:** [Google Drive Download](https://drive.google.com/file/d/1cXrsjCl5cI8W92VJIeaJt8_gPIPHnraI/view?usp=sharing)
+* **HAM10000 Reference:** Tschandl P, Rosendahl C, Kittler H (2018). *The HAM10000 dataset: A large collection of multi-source dermatoscopic images of common pigmented skin lesions.* Scientific Data 5:180161.
 
 ---
 
 # Code Information
 
-The repository contains two main notebooks.
+The repository contains two main execution notebooks:
 
-```
+```text
 skin-lesion-classification/
 │
 ├── custom.ipynb
 ├── ham10000.ipynb
 └── README.md
+
 ```
 
 ### custom.ipynb
 
-Runs the complete pipeline using the **custom dataset**.
+Executes the full 3-fold cross-validation training, feature extraction, quantum regularization, LNN stacking, and causal validation pipeline on the 17-class Custom dataset.
 
 ### ham10000.ipynb
 
-Runs the complete pipeline using the **HAM10000 benchmark dataset**.
-
-Both notebooks implement:
-
-* Data preprocessing
-* Base model training
-* Logit extraction
-* LNN stacking
-* Evaluation metrics
+Executes the comparative 3-fold pipeline and statistical benchmarking on the 7-class HAM10000 dataset.
 
 ---
 
 # Requirements
 
-Install the following dependencies.
+Dependencies required to run the pipeline:
 
-```
+```text
 Python >= 3.9
 PyTorch
 TensorFlow
@@ -135,16 +99,16 @@ Pandas
 Scikit-learn
 Matplotlib
 OpenCV
-Ultralytics (for YOLO)
-```
-
-Install packages using:
+Ultralytics (for YOLOv11x)
+Qiskit (for Quantum Variational Layer)
 
 ```
-pip install torch torchvision
-pip install tensorflow
-pip install ultralytics
-pip install scikit-learn opencv-python pandas matplotlib
+
+Install packages via `pip`:
+
+```bash
+pip install torch torchvision tensorflow ultralytics qiskit scikit-learn opencv-python pandas matplotlib
+
 ```
 
 ---
@@ -153,182 +117,118 @@ pip install scikit-learn opencv-python pandas matplotlib
 
 ### Step 1 — Clone Repository
 
-```
+```bash
 git clone https://github.com/hanija0/skin-lesion-classification.git
 cd skin-lesion-classification
+
 ```
 
 ### Step 2 — Download Dataset
 
-Download the custom dataset from:
+Download the custom dataset from [Google Drive](https://drive.google.com/file/d/1cXrsjCl5cI8W92VJIeaJt8_gPIPHnraI/view?usp=sharing) and extract it to:
 
-[https://drive.google.com/file/d/1cXrsjCl5cI8W92VJIeaJt8_gPIPHnraI/view?usp=sharing](https://drive.google.com/file/d/1cXrsjCl5cI8W92VJIeaJt8_gPIPHnraI/view?usp=sharing)
-
-Place the dataset inside:
-
-```
+```text
 dataset/
-```
-
----
-
-### Step 3 — Run Training
-
-For the custom dataset:
 
 ```
-run custom.ipynb
-```
 
-For HAM10000:
+### Step 3 — Run Training & Stacking
 
-```
-run ham10000.ipynb
-```
+Run the desired notebook environment:
 
----
-
-### Step 4 — Evaluation
-
-The notebooks output:
-
-* Accuracy
-* ROC-AUC
-* Confusion matrix
-* Inference time
-* Causal sensitivity scores
+* For Custom Dataset (17 Classes): Execute `custom.ipynb`
+* For HAM10000 (7 Classes): Execute `ham10000.ipynb`
 
 ---
 
 # Methodology
 
-The proposed pipeline follows these steps.
+1. **3-Fold Stratified Cross-Validation & Base Feature Extraction:**
+* Training sets are split using **3-Fold Stratified CV** to generate unbiased Out-of-Fold (OOF) latent activations and prevent target leakage.
+* **YOLOv11x:** Extracts 1280-dimensional global spatial embeddings.
+* **MobileNetV3-Large:** Extracts 960-dimensional latent features from the average pooling layer.
 
-### Step 1 — Feature Extraction
 
-Two complementary models are used.
+2. **Quantum-Inspired Regularization:**
+* YOLOv11x features (reduced to 256 dimensions) pass through a 4-qubit variational circuit (`ZZFeatureMap` + `RealAmplitudes` ansatz).
+* Regularized loss via expectation variance:
 
-**YOLOv11x**
+$$\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{CE}} + \lambda \text{Var}(q(z))$$
 
-* Rich feature extraction
-* Captures global spatial patterns
 
-**MobileNetV3-Large**
 
-* Lightweight architecture
-* Efficient inference
 
----
+3. **Meta-Feature Stacking:** 3-fold out-of-fold (OOF) feature vectors from both backbones are concatenated into a **1,224-dimensional** joint input representation.
+4. **Liquid Neural Network Head:** An `OptimizedLiquidCell` processes the stacked vector via a continuous-time ODE over 10 simulation time steps ($\Delta t = 0.03$):
 
-### Step 2 — Quantum-Inspired Regularization
+$$h_{t+1} = h_t + \Delta t \left( \tanh(W_{\text{state}} x) - h_t \cdot W_{\text{leak}} \right)$$
 
-To mitigate overfitting in YOLOv11x:
 
-* Classical features are mapped into a **4-qubit Hilbert space**
-* Variance penalty is applied to the training loss
-* Encourages smoother feature representations
-
----
-
-### Step 3 — Feature Stacking
-
-Outputs from both models are converted to **logit vectors** and concatenated.
-
-```
-Stacked feature vector = [YOLO logits | MobileNet logits]
-```
-
----
-
-### Step 4 — Liquid Neural Network Meta-Classifier
-
-A **Liquid Neural Network (LNN)** processes the stacked features.
-
-Advantages:
-
-* Dynamic internal state
-* Adaptive feature weighting
-* Robust ensemble learning
-
----
-
-### Step 5 — Causal Sensitivity Analysis
-
-Model robustness is evaluated using:
-
-* Perturbation tests
-* Contribution scores
-* Stability analysis
-
-This ensures **balanced contribution across base models**.
+5. **Causal AI Analysis:** Interventional tests evaluate prediction stability under model feature perturbations using do-calculus ($E[Y \mid \text{do}(X \leftarrow X + 0.10)] - E[Y \mid X]$).
 
 ---
 
 # Performance Summary
 
-### Custom Dataset
+### Comprehensive Benchmark Evaluation
 
-Accuracy: **88.7%**
-ROC-AUC: **0.987**
-Inference Time: **~0.17 seconds**
+| Dataset | Model / Method | Accuracy | Precision | Recall | F1-Score | AUC-ROC | Latency (s) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Custom (17 Classes)** | ResNet50 | 0.8348 | 0.8428 | 0.8421 | 0.8364 | 0.9887 | 7.2958 |
+|  | EfficientNet-B0 | 0.8413 | 0.8462 | 0.8471 | 0.8436 | 0.9911 | 9.1860 |
+|  | Soft Voting Ensemble | 0.8043 | 0.8174 | 0.8108 | 0.8061 | 0.9893 | 0.0250 |
+|  | Logistic Regression Stacking | 0.8517 | 0.8548 | 0.8582 | 0.8536 | 0.9735 | 0.0256 |
+|  | **LNN Stacking (Proposed)** | **0.8609** | **0.8661** | **0.8647** | **0.8613** | **0.9920** | **0.0037** |
+| **HAM10000 (7 Classes)** | MobileNetV3-Large | 0.8758 | 0.8240 | 0.7174 | 0.7526 | 0.9778 | 7.1104 |
+|  | MLP Stacking | 0.8805 | 0.8625 | 0.7279 | 0.7725 | 0.9813 | 0.0231 |
+|  | **LNN Stacking (Proposed)** | **0.8811** | **0.8398** | **0.7467** | **0.7789** | 0.9569 | **0.0152** |
 
----
+### Statistical Validation
 
-### HAM10000
-
-Accuracy: **~89%**
-
-The LNN stacking consistently outperforms:
-
-* Soft voting
-* Hard voting
-* Weighted averaging
-* Logistic regression stacking
+* **Friedman Test:** $\chi^2 = 20.00, p < 0.001$, confirming significant performance differences across methodologies.
+* **Wilcoxon & Cliff's Delta:** Pairwise tests ($p = 0.002, \delta = 1.00$) show LNN Stacking achieves a statistically significant improvement over standalone backbones.
 
 ---
 
 # Citations
 
-If you use this repository in research, please cite:
+If you use this project or framework in your research, please cite:
 
-Hanija Edupuganti, Surender Reddy Vinta, Lahari Vege, Dinesh Kumar Ponnada.
-**Liquid Neural Networks based Stacking for Skin Lesion Classification.**
+```bibtex
+@article{edupuganti2026liquid,
+  title={Liquid Neural Network-Based Stacking for Skin Lesion Classification},
+  author={Edupuganti, Hanija and Vinta, Surender Reddy and Vege, Lahari and Ponnada, Dinesh Kumar},
+  journal={School of Computer Science and Engineering, VIT-AP University},
+  year={2026}
+}
 
-HAM10000 Dataset:
+```
 
-Tschandl P, Rosendahl C, Kittler H (2018).
-The HAM10000 dataset: A large collection of multi-source dermatoscopic images of common pigmented skin lesions.
-Scientific Data 5:180161.
+Dataset citation:
+
+```bibtex
+@article{tschandl2018ham10000,
+  title={The HAM10000 dataset, a large collection of multi-source dermatoscopic images of common pigmented skin lesions},
+  author={Tschandl, Philipp and Rosendahl, Cliff and Kittler, Harald},
+  journal={Scientific Data},
+  volume={5},
+  pages={180161},
+  year={2018},
+  publisher={Nature Publishing Group}
+}
+
+```
 
 ---
 
 # License
 
-This project is intended for **research and educational purposes only**.
-
-It should **not be used for clinical diagnosis**.
-
----
-
-# Contribution Guidelines
-
-Contributions are welcome.
-
-Possible improvements include:
-
-* additional datasets
-* improved stacking methods
-* interpretability techniques
-* model compression for deployment
-
-Please open an **issue or pull request** for discussion.
+This project is intended for **research and educational purposes only**. It is not cleared for clinical diagnostic use.
 
 ---
 
 # Authors
 
-Hanija Edupuganti, Dr. Surender Reddy Vinta, Lahari Vege, Dinesh Kumar Ponnada
+**Hanija Edupuganti**, **Dr. Surender Reddy Vinta**, **Lahari Vege**, **Dinesh Kumar Ponnada**
 
-School of Computer Science and Engineering
-VIT-AP University
-
+*School of Computer Science and Engineering, VIT-AP University*
