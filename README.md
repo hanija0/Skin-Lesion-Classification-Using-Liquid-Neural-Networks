@@ -58,7 +58,7 @@ The framework is evaluated across two distinct clinical benchmarks:
 | **Custom Dataset** | 17 Classes | 3,036 | 2,121 / 455 / 460 (70:15:15) | **3-Fold Stratified CV** | Merged Derm12345 & Kaggle archives; Imbalance Ratio = 1.55; Normalized Entropy = 0.99. |
 | **HAM10000** | 7 Classes | 10,015 | 7,007 / 1,502 / 1,506 (70:15:15) | **3-Fold Stratified CV** | Standard dermatoscopic benchmark; includes uncleaned raw clinical noise. |
 
-* **Custom Dataset Link:** [Google Drive Download](https://drive.google.com/file/d/1cXrsjCl5cI8W92VJIeaJt8_gPIPHnraI/view?usp=sharing)
+* **Custom Dataset Link:** [Zenodo Download](https://zenodo.org/records/18896907)
 * **HAM10000 Reference:** Tschandl P, Rosendahl C, Kittler H (2018). *The HAM10000 dataset: A large collection of multi-source dermatoscopic images of common pigmented skin lesions.* Scientific Data 5:180161.
 
 ---
@@ -125,7 +125,7 @@ cd skin-lesion-classification
 
 ### Step 2 — Download Dataset
 
-Download the custom dataset from [Google Drive](https://drive.google.com/file/d/1cXrsjCl5cI8W92VJIeaJt8_gPIPHnraI/view?usp=sharing) and extract it to:
+Download the custom dataset from [Zenodo](https://zenodo.org/records/18896907) and extract it to:
 
 ```text
 dataset/
